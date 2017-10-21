@@ -56,4 +56,15 @@
 <span id="busuanzi_container_site_uv" style="display: inline;"> 版权所有 吃鱼座的神探玺洛克 © 2017 -</span>
 </span></article></div>
 
+        
+<script src="http://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-0.1.1.js"></script>
+    <p class="meta">{{ page.date | date: "%b %-d, %Y" }} <span class="pause"> - </span>
+        浏览量：<span data-hk-page="current"> - </span>次<span class="pause"> | </span>
+        {% if page.labels %}
+            {% for label in page.labels %}
+                <a class="label" href="{{ site.baseurl }}/all-articles/?label={{ label }}">{{ label }}</a>
+            {% endfor %}
+        {% endif %}
+    </p>
+        
 </body></html>
