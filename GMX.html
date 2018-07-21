@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<style type="text/css">
+<!--
+.t0 {
+	font-family: Arial;
+}
+.t1 {
+	font-family: Arial;
+	font-size: large;
+	font-weight: bold;
+	color: #3300FF;
+}
+.t2 {
+	font-family: Arial;
+	font-weight: normal;
+	background-color: #FFCC33;
+}
+-->
+</style>
+</head>
+
+<body class="t0">
+<p class="t1">[1.1].Get gro and top</p>
+<p class="t2">gmx pdb2gmx -f p1.pdb -o p1.gro -p p1.top -ignh</p>
+<p>#Ignore all the H atoms in pdb and name them by GMX rule;</p>
+<p>#Choose <strong>Force field(amber99sb-ildn) </strong>and <strong>water model(tip3p)</strong>;</p>
+<p>#<strong>DeepVIew </strong>and <strong>DS</strong> can be used to prepare protein; </p>
+<p class="t1">[1.2].Creat a box</p>
+<p class="t2">gmx editconf -f p1.gro -o p1_pbc.gro -bt dodecahedron -d 1.2</p>
+<p>#The unit of box is &quot;nm&quot; ; </p>
+<p>#-d should be larger than 0.9 nm; </p>
+<p>#-bt可选八面体、十二面体等，菱形十二面体接近球形，计算效率最高;</p>
+<p class="t1">[1.3].Energy minimum in vacuum</p>
+<p class="t2">gmx grompp -f em_vac.mdp -c p1_pbc.gro -p p1.top -o em_vac.tpr</p>
+<p class="t2">gmx mdrun -v -deffnm em_vac</p>
+<p class="t1">[1.4].Add solution and ions and Energy minimum in solution </p>
+<p class="t2">gmx solvate -cp em_vac.gro -cs spc216.gro -p p1.top -o p1_sol.gro</p>
+<p>#spc216是Gromacs统一的三点水分子结构;</p>
+<p>#-p is modificating the top and add the physical parameter of water;</p>
+<p class="t2">gmx grompp -f em_sol.mdp -c p1_wat.gro -p p1.top -o p1_sol.tpr</p>
+<p class="t2">gmx genion -s p1_sol.tpr -o p1_ion.gro -neutral -conc 0.15 -p p1.top</p>
+<p>#The unit of -conc is M;</p>
+<p>#genion默认使用NaCl，可使用-pname(阳离子)和-nname(阴离子)，根据相应力场的ions.itp文件中的离子设定;</p>
+<p>#可使用-pn(阳离子)和-nn(阴离子)分别指定离子数目;</p>
+<p>#Select a continuous group of solvent molecules:<strong>13(SOL)</strong></p>
+<p class="t2">gmx grompp -f em_sol.mdp -c p1_ion.gro -p p1.top -o em_sol.tpr</p>
+<p class="t2">gmx mdrun -v -deffnm em_sol</p>
+<p class="t1">[1.5].NVT with position restraint</p>
+<p class="t2">gmx grompp -f nvt_pre.mdp -c em_sol.gro -p p1.top -o nvt_pre.tpr</p>
+<p class="t2">gmx mdrun -v -deffnm nvt_pre    </p>
+<p><span class="t1">[1.6].NPT with position restraint</span></p>
+<p class="t2">gmx grompp -f npt_pre.mdp -c nvt_pre.gro -p p1.top -o npt_pre.tpr</p>
+<p class="t2">gmx mdrun -v -deffnm npt_pre</p>
+<p class="t0">#后台运算时可用<strong>tail -n 25 npt_pre.log</strong>查看</p>
+<p class="t1">[1.7].NPT without position restraint(Production)</p>
+<p class="t2">gmx grompp   -f npt.mdp -c npt_pre.gro -p p1.top -o npt.tpr</p>
+<p class="t2">gmx mdrun -v -deffnm npt.tpr</p>
+<p class="t1">[1.8].Trajectory transition</p>
+<p class="t2">gmx trjconv -s npt.tpr -f npr.trr -o npt.xtc -pbc whole -ur compact -center</p>
+<p>#Choose <strong>0(System)</strong> twice</p>
+<p>&nbsp;</p>
+<p class="t1">[2.1].RMSD</p>
+<p class="t2">gmx rms -s npt.tpr -f npt.xtc -o npt_rms.xvg</p>
+<p>#Select <strong>4(Backbone)</strong></p>
+<p class="t1">[2.2].Extract propoties by &quot;gmx energy&quot;</p>
+<p class="t2">gmx energy -f npt.edr -o npt_edr.xvg</p>
+<p>#Select the terms you want, e.g.&quot;10 11 12 13&quot; </p>
+<p>#Submit by twice &quot;Enter&quot;      </p>
+<p class="t1">[2.3].SASA</p>
+<p class="t2">gmx sasa -s npt.tpr -f npt.xtc -o npt_area.xvg -or npt_res.xvg -oa npt_atomarea.xvg</p>
+<p>#Select <strong>1(Protein) </strong></p>
+<p class="t1">[2.4].RMSF and B factor</p>
+<p class="t2">gmx rmsf -s npt.tpr -f npt.xtc -b 500 -o npt_rmsf.xvg -ox npt_avg.pdb</p>
+<p>#Select <strong>1(Protein) </strong>;</p>
+<p>#Average structure after 500ps   </p>
+<p class="t2">gmx rmsf -s npt.tpr -f npt,xtc -o npt_rmsf.xvg -ox npt_avg.pdb -res -oq npt_bfac.pdb</p>
+<p class="t0">#Select <strong>1(Protein) </strong>;</p>
+<p class="t1">[2.5].Radiu gyration,   a measure of the “compactness” of the protein</p>
+<p class="t2">gmx gyrate -s npt.tpr -f npt.xtc -o npt_gyrate.xvg</p>
+<p>#Select <strong>1(Protein);  </strong></p>
+<p class="t1">[2.6].Secondary structure</p>
+<p class="t2">gmx do_dssp -s npt.tpr -f npt.xtc -o npt_ss.xpm -sc npt_ss.xvg</p>
+<p>#Select <strong>1(Protein) </strong></p>
+<p class="t2">gmx xpm2ps -f npt_ss.xpm -o npt_ss.eps</p>
+<p class="t2">convert npt_ss.eps npt_ss.png </p>
+<p class="t1">[2.7].Hygrogen bond    </p>
+<p class="t2">gmx hbond -s npt.tpr -f npt.xtc -num npt_hnum.xvg</p>
+<p>#Select <strong>(Prorein) and (Water)</strong></p>
+<p class="t1">[2.8].Salt bridge</p>
+<p class="t2">gmx saltbr -s npt.tpr -f npt.xtc</p>
+<p class="t1">[2.9].Cluster</p>
+<p class="t1">[2.10].PCA(Principal Component Analysis)</p>
+<p class="t1">[2.11].gmx angle </p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
