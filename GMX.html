@@ -30,7 +30,7 @@
 <p>#Choose <strong>Force field(amber99sb-ildn) </strong>and <strong>water model(tip3p)</strong>;</p>
 <p>#<strong>DeepVIew </strong>and <strong>DS</strong> can be used to prepare protein; </p>
 <p class="t1">[1.2].Creat a box</p>
-<p class="t2">gmx editconf -f p1.gro -o p1_pbc.gro -bt dodecahedron -d 1.2</p>
+<p class="t2">gmx editconf -f p1.gro -o p1_pbc.gro -c -bt dodecahedron -d 1.2</p>
 <p>#The unit of box is &quot;nm&quot; ; </p>
 <p>#-d should be larger than 0.9 nm; </p>
 <p>#-bt可选八面体、十二面体等，菱形十二面体接近球形，计算效率最高;</p>
@@ -39,7 +39,7 @@
 <p class="t2">gmx mdrun -v -deffnm em_vac</p>
 <p class="t1">[1.4].Add solution and ions and Energy minimum in solution </p>
 <p class="t2">gmx solvate -cp em_vac.gro -cs spc216.gro -p p1.top -o p1_sol.gro</p>
-<p>#spc216是Gromacs统一的三点水分子结构;</p>
+<p>#spc216是Gromacs统一的三点水分子结构，可用于SPC,SPC/E,TIP3P水模型;</p>
 <p>#-p is modificating the top and add the physical parameter of water;</p>
 <p class="t2">gmx grompp -f em_sol.mdp -c p1_wat.gro -p p1.top -o p1_sol.tpr</p>
 <p class="t2">gmx genion -s p1_sol.tpr -o p1_ion.gro -neutral -conc 0.15 -p p1.top</p>
@@ -49,7 +49,7 @@
 <p>#Select a continuous group of solvent molecules:<strong>13(SOL)</strong></p>
 <p class="t2">gmx grompp -f em_sol.mdp -c p1_ion.gro -p p1.top -o em_sol.tpr</p>
 <p class="t2">gmx mdrun -v -deffnm em_sol</p>
-<p class="t1">[1.5].NVT with position restraint</p>
+<p class="t1">[1.5].NVT with position restraint，100 ps is ok</p>
 <p class="t2">gmx grompp -f nvt_pre.mdp -c em_sol.gro -p p1.top -o nvt_pre.tpr</p>
 <p class="t2">gmx mdrun -v -deffnm nvt_pre    </p>
 <p><span class="t1">[1.6].NPT with position restraint</span></p>
@@ -96,7 +96,15 @@
 <p class="t1">[2.10].PCA(Principal Component Analysis)</p>
 <p class="t1">[2.11].gmx angle </p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
+<p class="t0">[3]</p>
+<p class="t0">1.energygrps里控制不同能量组可输出相互作用能；</p>
+<p class="t0">2.满盒子时必须打开DospCorr，且只能满盒子时才能用；</p>
+<p class="t0">3.温度耦合时必须足够多才能作为一个组，十几个一百多都不行，所以即便不用System也用Protein non-protein </p>
+<p class="t0">4.一定要先开vdw再加电荷；</p>
+<p class="t0">5.自由能计算要用sd；</p>
+<p class="t0">6.已定义的残基文件在*.rtp文件中，一般包括蛋白质、核算和非常有限的辅酶因子，如NAD(H)和ATP;</p>
+<p class="t0">7.top文件的[molecules]中列出分子的顺序必须与gro文件中分子顺序<strong>完全一致</strong></p>
+<p class="t0">8.top文件的[molecules]中列出的名称必须与[moleculetype]中的名称一致</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
