@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title>ÎŞ±êÌâÎÄµµ</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>æ— æ ‡é¢˜æ–‡æ¡£</title>
 <style type="text/css">
 <!--
 .t0 {
@@ -33,19 +33,19 @@
 <p class="t2">gmx editconf -f p1.gro -o p1_pbc.gro -bt dodecahedron -d 1.2</p>
 <p>#The unit of box is &quot;nm&quot; ; </p>
 <p>#-d should be larger than 0.9 nm; </p>
-<p>#-bt¿ÉÑ¡°ËÃæÌå¡¢Ê®¶şÃæÌåµÈ£¬ÁâĞÎÊ®¶şÃæÌå½Ó½üÇòĞÎ£¬¼ÆËãĞ§ÂÊ×î¸ß;</p>
+<p>#-btå¯é€‰å…«é¢ä½“ã€åäºŒé¢ä½“ç­‰ï¼Œè±å½¢åäºŒé¢ä½“æ¥è¿‘çƒå½¢ï¼Œè®¡ç®—æ•ˆç‡æœ€é«˜;</p>
 <p class="t1">[1.3].Energy minimum in vacuum</p>
 <p class="t2">gmx grompp -f em_vac.mdp -c p1_pbc.gro -p p1.top -o em_vac.tpr</p>
 <p class="t2">gmx mdrun -v -deffnm em_vac</p>
 <p class="t1">[1.4].Add solution and ions and Energy minimum in solution </p>
 <p class="t2">gmx solvate -cp em_vac.gro -cs spc216.gro -p p1.top -o p1_sol.gro</p>
-<p>#spc216ÊÇGromacsÍ³Ò»µÄÈıµãË®·Ö×Ó½á¹¹;</p>
+<p>#spc216æ˜¯Gromacsç»Ÿä¸€çš„ä¸‰ç‚¹æ°´åˆ†å­ç»“æ„;</p>
 <p>#-p is modificating the top and add the physical parameter of water;</p>
 <p class="t2">gmx grompp -f em_sol.mdp -c p1_wat.gro -p p1.top -o p1_sol.tpr</p>
 <p class="t2">gmx genion -s p1_sol.tpr -o p1_ion.gro -neutral -conc 0.15 -p p1.top</p>
 <p>#The unit of -conc is M;</p>
-<p>#genionÄ¬ÈÏÊ¹ÓÃNaCl£¬¿ÉÊ¹ÓÃ-pname(ÑôÀë×Ó)ºÍ-nname(ÒõÀë×Ó)£¬¸ù¾İÏàÓ¦Á¦³¡µÄions.itpÎÄ¼şÖĞµÄÀë×ÓÉè¶¨;</p>
-<p>#¿ÉÊ¹ÓÃ-pn(ÑôÀë×Ó)ºÍ-nn(ÒõÀë×Ó)·Ö±ğÖ¸¶¨Àë×ÓÊıÄ¿;</p>
+<p>#genioné»˜è®¤ä½¿ç”¨NaClï¼Œå¯ä½¿ç”¨-pname(é˜³ç¦»å­)å’Œ-nname(é˜´ç¦»å­)ï¼Œæ ¹æ®ç›¸åº”åŠ›åœºçš„ions.itpæ–‡ä»¶ä¸­çš„ç¦»å­è®¾å®š;</p>
+<p>#å¯ä½¿ç”¨-pn(é˜³ç¦»å­)å’Œ-nn(é˜´ç¦»å­)åˆ†åˆ«æŒ‡å®šç¦»å­æ•°ç›®;</p>
 <p>#Select a continuous group of solvent molecules:<strong>13(SOL)</strong></p>
 <p class="t2">gmx grompp -f em_sol.mdp -c p1_ion.gro -p p1.top -o em_sol.tpr</p>
 <p class="t2">gmx mdrun -v -deffnm em_sol</p>
@@ -55,7 +55,7 @@
 <p><span class="t1">[1.6].NPT with position restraint</span></p>
 <p class="t2">gmx grompp -f npt_pre.mdp -c nvt_pre.gro -p p1.top -o npt_pre.tpr</p>
 <p class="t2">gmx mdrun -v -deffnm npt_pre</p>
-<p class="t0">#ºóÌ¨ÔËËãÊ±¿ÉÓÃ<strong>tail -n 25 npt_pre.log</strong>²é¿´</p>
+<p class="t0">#åå°è¿ç®—æ—¶å¯ç”¨<strong>tail -n 25 npt_pre.log</strong>æŸ¥çœ‹</p>
 <p class="t1">[1.7].NPT without position restraint(Production)</p>
 <p class="t2">gmx grompp   -f npt.mdp -c npt_pre.gro -p p1.top -o npt.tpr</p>
 <p class="t2">gmx mdrun -v -deffnm npt.tpr</p>
@@ -79,7 +79,7 @@
 <p>#Average structure after 500ps   </p>
 <p class="t2">gmx rmsf -s npt.tpr -f npt,xtc -o npt_rmsf.xvg -ox npt_avg.pdb -res -oq npt_bfac.pdb</p>
 <p class="t0">#Select <strong>1(Protein) </strong>;</p>
-<p class="t1">[2.5].Radiu gyration,   a measure of the ¡°compactness¡± of the protein</p>
+<p class="t1">[2.5].Radiu gyration,   a measure of the â€œcompactnessâ€ of the protein</p>
 <p class="t2">gmx gyrate -s npt.tpr -f npt.xtc -o npt_gyrate.xvg</p>
 <p>#Select <strong>1(Protein);  </strong></p>
 <p class="t1">[2.6].Secondary structure</p>
