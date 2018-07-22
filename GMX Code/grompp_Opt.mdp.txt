@@ -1,0 +1,385 @@
+;=======================================================================
+; 预处理, 遵从 C++ 语法
+;=======================================================================
+include =     ; 引用文件的路径, 拓扑文件中引用其他文件的路径, 可多项
+              ; 例: -I/home/joe/doe -I/home/mary/roe
+define  =     ; 预定义, 默认无, 可多项, 区分大小写
+              ; -DPOSRES 柔性水, steep效果更好, cg或l-bfgs必须
+              ; -DFLEXIBLE 使用位置限制文件进行位置限制动力学模拟
+
+;=======================================================================
+; 运行控制参数
+;=======================================================================
+integrator       = md     ; 积分方法, md: 蛙跳; sd: 随机; steep/cg/lbfgs: 能量最小化
+dt               = 1E-3   ; 积分步长(ps), EM不用
+nsteps           = 1000   ; 最大积分步数, 默认0表示不限制
+
+tinit            = 0      ; 起始时间(ps), EM不用
+init-step        = 0      ; 起始步数, 对非平衡模拟, 精确重启或重做某部分模拟时, 设定为重启步编号
+simulation-part  = 1      ; 检查点时自动更新的部分编号(保持文件分开)
+comm-mode        = Linear ; 移除质心运动的方式, None: 无; Linear: 平动; Angular: 平动转动
+
+nstcomm          = 1      ; 移除质心运行的频率(步)
+comm-grps        =        ; 移除质心运动的组, 可多个, 默认整个体系
+
+;=======================================================================
+; 输出控制参数
+;=======================================================================
+nstxout                 = 1    ; trr坐标的输出频率(步)
+nstvout                 = 1    ; 速度
+nstfout                 = 1    ; 力
+nstxout-compressed      = 1    ; xtc压缩坐标的输出频率
+compressed-x-precision  = 1000 ; xtc坐标的精度
+
+nstlog                  = 1000 ; 日志文件中能量的输出频率
+nstenergy               = 1000 ; 能量文件
+nstcalcenergy           = 100  ; 计算能量的频率, 最好为nstlistt的倍数
+compressed-x-grps       =      ; 输出xtc压缩坐标的组, 可使用多个组
+energygrps              =      ; 输出到能量文件的组, 可使用多个
+
+;=======================================================================
+; 能量最小化/壳层动力学
+;=======================================================================
+emtol                   = 10   ; 力的最大容差(kJ/mol-nm), 对壳层值应小于1
+emstep                  = 0.01 ; 初始步长(nm)
+
+nstcgsteep              = 1000 ; cg能量最小化时执行一次最速下降的频率(步)
+nbfgscorr               = 10   ; L-BFGS最小化的校正步数
+
+niter                   = 20   ; 弛豫壳层的最大迭代数
+fcstep                  = 0    ; 优化柔性约束的步长(ps^2)
+
+;=======================================================================
+; 随机动力学
+;=======================================================================
+bd-fric                 = 0    ; 摩擦系数(amu/ps)
+ld-seed                 = -1   ; 随机数种子
+
+;=======================================================================
+; 测试粒子插入
+;=======================================================================
+rtpi                    = 0.05 ; 测试粒子插入半径(nm)
+
+;=======================================================================
+; 邻区搜索参数
+;=======================================================================
+nstlist                  = 1      ; 邻区列表更新频率, 0: 用于真空模拟; -1: 自动;
+rlist                    = 1      ; 邻区列表的截断距离(nm)
+cutoff-scheme            = Verlet ; 截断方式(Verlet: 粒子截断; group: 电荷组)
+ns_type                  = grid   ; 邻区搜索方法(grid: 较快; simple: 仅与group联用)
+rlistlong                = -1     ; 切换势能函数的长程邻区列表截断距离(nm)
+nstcalclr                = -1     ; 长程邻区列表的计算频率
+
+pbc                      = xyz    ; 周期性比较条件: xyz, xy, no: 忽略盒子, 截断与nstlist置零
+periodic-molecules       = no     ; 周期性分子: no, yes
+verlet-buffer-tolerance  = 0.005  ; Verlet的能量误差(kJ/mol-ps-atom), -1表示使用rlist
+
+;=======================================================================
+; 静电与范德华
+;=======================================================================
+rvdw                = .9      ; 范德华截断半径
+rcoulomb            = .9      ; 静电截断半径
+vdw-type            = Cut-off ; 范德华计算方法
+coulombtype         = PME     ; 静电的计算方法
+
+rvdw-switch         = 0                      ; 切换距离
+rcoulomb-switch     = 0
+vdw-modifier        = Potential-shift-Verlet ; 修正方法
+coulomb-modifier    = Potential-shift-Verlet
+
+DispCorr            = No   ; 能量/压力的色散长程校正, no: 无; Ener: 能量; EnerPres: 能量和压力
+
+table-extension     = 1    ; 势能表格的扩展长度
+energygrp-table     =      ; 配对能量组的势能表格
+
+epsilon-r           = 1    ; 介质的相对介电常数, 0: 无穷大
+epsilon-rf          = 0    ; 反应场
+
+; EWALD/PME/PPPM参数
+fourierspacing      = 0.12 ; FFT格点最大间距(nm)
+fourier-nx          = 0    ; x方向FFT格点数目, 0: 由间距计算
+fourier-ny          = 0    ; y
+fourier-nz          = 0    ; z
+
+pme_order           = 4         ; 内插阶数, 默认4相当于三次插值
+ewald-rtol          = 1e-005    ; 静电能量容差
+ewald-rtol-lj       = 0.001     ; VDW能量容差
+lj-pme-comb-rule    = Geometric ; 组合规则
+ewald-geometry      = 3d        ; Ewald几何结构
+epsilon-surface     = 0         ; 偶极校正
+
+;=======================================================================
+; 温度耦合
+;=======================================================================
+tcoupl           = nose-hoover ; 耦合方法, no: 无; v-rescale: 快速; nose-hoover: 精确
+tc-grps          = system      ; 温度耦合组, 可多个
+tau_t            = 2           ; 耦合时间常数(ps)
+ref_t            = 298.15      ; 参考温度(K)
+
+nsttcouple       = -1 ; 耦合频率, -1: 同nstlist
+nh-chain-length  = 10
+print-nose-hoover-chain-variables = no
+
+;=======================================================================
+; 压力耦合
+;=======================================================================
+pcoupl            = No        ; 耦合方法, no: 无, 盒子大小不变; berendsen: 快速; Parrinello-Rahman: 精确
+pcoupltype        = Isotropic ; 耦合类型, isotropic: 各向同性;
+                              ; semiisotropic: x/y方向各向同性, 与z方向不同, 膜模拟
+                              ; anisotropic: 各向异性, 盒子可能剧烈变形
+                              ; surface-tension: 表面张力
+tau-p             = 1         ; 时间常数(ps)
+compressibility   = 4.5E-5    ; 压缩率(1/bar)
+ref-p             = 1         ; 参考压力(bar)
+
+nstpcouple        = -1        ; 耦合频率, -1: 同nstlist
+refcoord-scaling  = No        ; 缩放参考坐标: No, All, COM
+
+;=======================================================================
+; 初始速度
+;=======================================================================
+gen_vel           = yes    ; no: 使用gro文件的值; yes: 随机
+gen_temp          = 298.15 ; 随机速度对应的温度
+gen-seed          = -1     ; 随机数种子; -1: 自动确定
+
+;=======================================================================
+; 键约束
+;=======================================================================
+constraints           = none ; none: 仅拓扑中指定的
+                             ;   h-bonds: 含氢键;   h-angles: 涉氢键和键角
+                             ; all-bonds: 所有键; all-angles: 所有键和键角
+
+constraint-algorithm  = Lincs  ; 约束算法类型,  LINCS: 不支持键角; SHAKE: 慢且不稳定, 不支持EM, 不同区域间
+continuation          = no     ; 是否约束初始构型, 并重置壳层
+Shake-SOR             = no     ; 使用连续超弛豫方法减少shake迭代数目
+shake-tol             = 0.0001 ; shake的相对容差
+lincs-order           = 4      ; 约束耦合矩阵展开的最高阶数
+lincs-iter            = 1      ; LINCS最终步的迭代数. 常规模拟可用1, NVE能量守恒用2, 含有约束的能量最小化应用4或8
+lincs-warnangle       = 30     ; 如果某一步中键的旋转角度超过此值, LINCS警告将写到标准错误终端
+morse                 = no     ; 将简谐键转换为Morse势
+
+;=======================================================================
+; 能量组排除
+;=======================================================================
+energygrp-excl   = ; 排除非键相互作用计算的组
+
+;=======================================================================
+; 自由能计算
+;=======================================================================
+free-energy          = no    ; no/yes/expand
+couple-moltype       =       ; 耦合的分子类型, 使用拓扑中的名称
+couple-lambda0       = none  ; 作用类型, none: 无;      q: 仅静电
+couple-lambda1       = vdw-q ;           vdw-q: 所有; vdw: 仅vdw
+couple-intramol      = no    ; 耦合分子的内部非键作用
+
+init-lambda-state    = -1   ; 从零开始的状态编号
+coul-lambdas         =      ; 静电作用
+vdw-lambdas          =      ; vdw作用
+
+nstdhdl              = 50   ; 输出频率, 为nstcalcenergy的倍数
+
+delta-lambda         = 0    ; 每步的增量, 慢增长方法取非零值
+init-lambda          = -1   ; 起始值, 用于慢增长方法
+
+fep-lambdas          =      ; 默认值
+mass-lambdas         =      ; 质量
+bonded-lambdas       =      ; 成键
+restraint-lambdas    =      ; 限制
+temperature-lambdas  =      ; 温度
+
+sc-alpha             = 0    ; 软核势参数, 0表示线性内插
+sc-power             = 1    ; 次数, 1或2
+sc-r-power           = 6    ; 径向部分的次数, 6或48
+sc-sigma             = 0.3  ; 用于C6/C12为零, 或小于此值的粒子
+sc-coul              = no   ; 对静电是否使用软核
+
+dhdl-derivatives     = yes  ; 输出导数, 必需
+separate-dhdl-file   = yes  ; 文件单独输出
+dhdl-print-energy    = no   ; 是否包含总能量或势能
+dh_hist_size         = 0    ; 直方图分格大小
+dh_hist_spacing      = 0.1  ; 直方图宽度, 能量单位
+
+init-lambda-weights  =
+calc-lambda-neighbors= 1  ; 相邻的数目. bar取1, mbar取-1
+
+;=======================================================================
+; 质心牵引
+;=======================================================================
+pull                  = yes ; yes/no
+
+pull-nstxout          = 50 ; 质心输出频率
+pull-nstfout          = 50 ; 受力输出频率
+pull-print-com1       = no ; 是否输出质心
+pull-print-com2       = no
+pull-print-ref-value  = no
+pull-print-components = no
+
+pull_ngroups          = 2   ; 牵引组数目
+pull_ncoords          = 1   ; 牵引坐标数目
+pull_group1_name      = ref ; 牵引组名称, 来自top或ndx
+pull_group2_name      = ldp
+pull_coord1_type      = umbrella
+                      ; umbrella: 简谐势
+                      ; constraint: 刚性约束
+                      ; constant-force: 恒力, 无须pull-init和pull-rate
+pull_coord1_geometry  = direction-periodic
+                      ; distance: 沿质心间的矢量, 用pull-dim选择分量
+                      ; direction: 沿pull-vec方向
+                      ; direction-periodic: 同direction, 但距离可超过盒长一半. 使用时盒子在牵引方向不能变化
+                      ; cylinder: 圆柱
+
+pull_coord1_groups    = 1 2   ; 牵引坐标对应的组
+pull-coord1-vec       = 0 0 1 ; 牵引方向矢量
+pull_coord1_rate      = 0.1   ; 速率(nm/ps)
+pull_coord1_k         = 1E5   ; 力常数(kJ/mol-nm^2)
+pull_coord1_dim       = N N Y ; 所用距离分量
+
+pull-coord1-init      = 0     ; 零时刻的基准距离
+pull_coord1_start     = yes   ; no: 不修改pull-init; yes: 将初始构型的质心距离添加到pull-init
+pull-coord1-origin    = 0 0 0 ; 绝对参考对应的参考位置
+pull-coord1-kB        = 1     ; 仅用于自由能的B状态
+
+pull-group1-weights   =       ; 质心相对权重
+pull-group2-weights   =
+pull-group1-pbcatom   = 0     ; 处理PBC时参考原子的编号
+pull-group2-pbcatom   = 0
+
+pull-constr-tol       = 1e-06 ; 约束牵引的容差
+pull-cylinder-r       = 1.5   ; 动态反应受力组的圆柱内径(nm)
+
+;=======================================================================
+; 强制旋转
+;=======================================================================
+rotation          = no ; No, Yes
+
+;=======================================================================
+; 非平衡动力学
+;=======================================================================
+acc-grps          =
+accelerate        =
+freezegrps        =
+freezedim         =
+cos-acceleration  = 0
+deform            =
+
+;=======================================================================
+; 电场
+;=======================================================================
+E-x   = ; 恒定电场, 格式为: 项数(整数), 每项对应一个振幅(实数)和相位角(实数)
+E-y   =
+E-z   =
+E-xt  = ; 含时(脉冲)电场. 格式: 脉冲峰的时间omega, 宽度sigma. Sigma=0时为余弦函数
+E-yt  =
+E-zt  =
+
+;=======================================================================
+; 退火
+;=======================================================================
+annealing                   = ; 每一温度组的退火类型: no, single, periodic
+annealing-npoints           = ; 每一组指定退火的时间点数
+annealing-time              = ; 每一组退火点处的时间列表
+annealing-temp              = ; 每一组每个退火点处的温度
+
+;=======================================================================
+; 模拟升温
+;=======================================================================
+simulated-tempering         = no
+simulated-tempering-scaling = geometric
+sim-temp-low                = 300
+sim-temp-high               = 300
+
+;=======================================================================
+; 墙
+;=======================================================================
+nwall            = 0   ; 墙的数目
+wall-type        = 9-3 ; 类型
+wall-r-linpot    = -1  ;
+wall-atomtype    =     ; 原子类型
+wall-density     =     ; 密度
+wall-ewald-zfac  = 3   ; 盒子z方向的Ewald缩放因子
+
+;=======================================================================
+; NMR精修
+;=======================================================================
+disre            = No    ; 距离限制类型: No, Simple, Ensemble
+disre-weighting  = Conservative ; 每一距离限制中的力权重: Conservative, Equal
+disre-mixed      = no    ; 使用时间平均与瞬时超量的平方根
+disre-fc         = 1000
+disre-tau        = 0
+nstdisreout      = 100    ; 距离对写入能量文件的频率
+orire            = no     ; 取向限制: No, Yes
+orire-fc         = 0      ; 取向限制的力常数
+orire-tau        = 0      ; 取向限制的时间平均常数
+orire-fitgrp     =
+nstorireout      = 100    ; 迹trace(SD)和S写入能量文件的频率
+
+;=======================================================================
+; 隐式溶剂算法/广义Born静电模型
+;=======================================================================
+implicit-solvent      = No
+
+gb-algorithm          = Still ; 计算Born半径的算法
+nstgbradii            = 1     ; 计算rlist内Born半径的频率
+rgbradii              = 1     ; 计算Born半径的截断距离, rlist与rgbradii范围内原子的贡献每nstlist步更新一次
+gb-epsilon-solvent    = 80    ; 隐式溶剂的介电系数
+gb-saltconc           = 0     ; 广义Born模型的盐浓度(M)
+
+gb-obc-alpha          = 1     ; OBC广义Born模型的缩放因子, 默认为OBC(II)
+gb-obc-beta           = 0.8
+gb-obc-gamma          = 4.85
+gb-dielectric-offset  = 0.009
+sa-algorithm          = Ace-approximation ; none: 不计算
+sa-surface-tension    = -1    ; GBSA中SA(非极性表面)部分的表面张力(kJ/mol/nm^2). -1: 使用Still/HCT/OBC模型的默认值
+
+;=======================================================================
+; QM/MM计算
+;=======================================================================
+QMMM                  = no
+QMMM-grps             =        ; QM处理的组
+QMmethod              =        ; QM方法
+QMMMscheme            = normal ; QM方案
+QMbasis               =        ; QM基组
+QMcharge              =        ; QM电荷
+QMmult                =        ; QM自旋多重度
+SH                    =        ; QM表面跃迁
+MMChargeScaleFactor   = 1      ; MM电荷的缩放因子
+
+; CAS空间选项
+CASorbitals           =
+CASelectrons          =
+SAon                  =
+SAoff                 =
+SAsteps               =
+
+; QM子体系的优化选项
+bOPT                  =
+bTS                   =
+
+;=======================================================================
+; 计算电生理学
+;=======================================================================
+swapcoords      = no ; 离子/水位置交换的方向: no, X, Y, Z
+
+;=======================================================================
+; AdResS 参数
+;=======================================================================
+adress          = no
+
+;=======================================================================
+; 交互式MD中显示或操纵的分子组
+;=======================================================================
+IMD-group       =
+
+;=======================================================================
+; 用户自定义参数
+;=======================================================================
+user1-grps      =
+user2-grps      =
+userint1        = 0
+userint2        = 0
+userint3        = 0
+userint4        = 0
+userreal1       = 0
+userreal2       = 0
+userreal3       = 0
+userreal4       = 0
