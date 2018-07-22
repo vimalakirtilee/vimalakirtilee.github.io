@@ -35,7 +35,8 @@
 <p>#-d should be larger than 0.9 nm; </p>
 <p>#-bt可选八面体、十二面体等，菱形十二面体接近球形，计算效率最高;</p>
 <p class="t1">[1.3].Energy minimum in vacuum</p>
-<p class="t2">gmx grompp -f em_vac.mdp -c p1_pbc.gro -p p1.top -o em_vac.tpr</p>
+<p class="t2">gmx grompp -f em_vac.mdp -c p1_pbc.gro -p p1.top -o em_vac.tpr</p>	
+<p class="t2">gmx grompp -f <a href="https://vimalakirtilee.github.io/GMX Code/em_vac.mdp.txt"> em_vac.mdp</a> -c p1_pbc.gro -p p1.top -o em_vac.tpr</p>	
 <p class="t2">gmx mdrun -v -deffnm em_vac</p>
 <p class="t1">[1.4].Add solution and ions and Energy minimum in solution </p>
 <p class="t2">gmx solvate -cp em_vac.gro -cs spc216.gro -p p1.top -o p1_sol.gro</p>
@@ -108,7 +109,7 @@
 
 <br>	
 <p class="t1">[4].Code</p>	
-<p><a href="https://vimalakirtilee.github.io/GMX Code/em_vac.mdp.txt"> em_vac.mdp</a></p>
+
 <p><a href="https://vimalakirtilee.github.io/GMX Code/em_sol.mdp.txt"> em_sol.mdp</a></p>
 <p><a href="https://vimalakirtilee.github.io/GMX Code/nvt_pre.mdp.txt"> nvt_pre.mdp</a></p>
 <p><a href="https://vimalakirtilee.github.io/GMX Code/npt_pre.mdp.txt"> npt_pre.mdp</a></p
