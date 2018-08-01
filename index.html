@@ -33,14 +33,12 @@ function tstOk(){
 </SCRIPT> 
 
   
-<script language="javascript"> 
-    function onkeydown() { 
-        if(event.keyCode == 13) { 
-            document.getElementById("123").click(); 
-            return false; 
-        } 
-    } 
-</script>   
+<script language="JavaScript">
+function keyLogin(){
+ if (event.keyCode==13)  //回车键的键值为13
+   document.getElementByIdx_x("input1").click(); //调用登录按钮的登录事件
+}
+</script>  
   
   
   
@@ -48,7 +46,7 @@ function tstOk(){
 </head>
     
   
-<body> 
+<body onkeydown="keyLogin();"> 
 <div class="wrap">
 
 
@@ -57,10 +55,10 @@ function tstOk(){
 <TR><TD COLSPAN=2 ALIGN=CENTER><FONT SIZE=4 COLOR=WHITE FACE="楷体_GB2312"><B>请您输入</B></FONT></TD></TR>
 <TR><TD><FONT SIZE=3 COLOR=WHITE><B>Password:</B></FONT></TD>
 <TD><INPUT TYPE="password" NAME="passwrd" VALUE="" SIZE=10></TD></TR>
-<TR><TD COLSPAN=2 ALIGN=CENTER><INPUT TYPE="button" id="123" NAME="btn" VALUE=" 登录 " onClick="ckPwd();return false;"></TD></TR>
+<TR><TD COLSPAN=2 ALIGN=CENTER><INPUT TYPE="button" id="input1" NAME="btn" VALUE=" 登录 " onClick="ckPwd();return false;"></TD></TR>
 </TABLE></FORM>
 
-   
+123   
   
   
   
