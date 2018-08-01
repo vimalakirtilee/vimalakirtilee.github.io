@@ -49,7 +49,7 @@ function BindEnter() {
 </head>
     
   
-<body onload="check()"> 
+<body onload="document.getElementById('inputTxt').focus()"> 
 <div class="wrap">
 
 
@@ -57,7 +57,7 @@ function BindEnter() {
 <TABLE BORDER=2 align="center" CELLPADDING=5 CELLSPACING=0 BGCOLOR=#00CD00>
 <TR><TD COLSPAN=2 ALIGN=CENTER><FONT SIZE=4 COLOR=WHITE FACE="楷体_GB2312"><B>请您输入</B></FONT></TD></TR>
 <TR><TD><FONT SIZE=3 COLOR=WHITE><B>Password:</B></FONT></TD>
-<TD><INPUT TYPE="password" NAME="passwrd" VALUE="" SIZE=10 onkeypress="BindEnter();"></TD></TR>
+<TD><INPUT TYPE="password" NAME="passwrd" id="inputTxt" VALUE="" SIZE=10 onkeypress="BindEnter();"></TD></TR>
 <TR><TD COLSPAN=2 ALIGN=CENTER><INPUT TYPE="button" id="enter" NAME="btn" VALUE=" 登录 " onClick="ckPwd();return false;"></TD></TR>
 </TABLE></FORM>  
   
