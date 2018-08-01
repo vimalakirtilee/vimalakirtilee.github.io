@@ -8,18 +8,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Vimalakirti Lee/">  
  
-<script language="JavaScript">
-<!--
-var password="";
-password=prompt('Lock','');
-if (password != '1')   
-{
-alert("用户名或密码错误");
-window.location.href="reg.html";
-return false;
-}  // 密码不正确就关闭
-//-->
-</script> 
+
+<script>
+   function login(){
+   var name=document.getElementById("name").value;
+   var pass=document.getElementById("pass").value;
+   if(name=="admin" && pass=="admin"){
+       alert("登入成功");
+       window.location.href="index.html";
+   return false;
+   }else{
+       alert("用户名或密码错误");
+       window.location.href="reg.html";
+   return false;
+     }   
+   }
+</script>  
+  
+  
   
 <header class="site-header"><div class="wrap">
 <strong>" My name is Sherlock Holmes.  It is my business to know what other people do not know." ——Sherlock Holmes </strong>
@@ -32,7 +38,7 @@ return false;
 <article class="content"><ul class="listing">
   
 <li class="listing-seperator"><strong>RESEARCH</strong></li>
-<li class="listing-item"><time>20171126</time><a href="http://vimalakirtilee.github.io/Research.html"> Research</a></li>
+<li class="listing-item"><time>20171126</time><a href="http://vimalakirtilee.github.io/Research.html"> Research1</a></li>
 <li class="listing-item"><time>20180726</time><a href="http://vimalakirtilee.github.io/New_Message.html"> New_Message</a></li> 
   
   
