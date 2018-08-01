@@ -46,9 +46,9 @@ function tstOk(){
 <TR><TD COLSPAN=2 ALIGN=CENTER><FONT SIZE=4 COLOR=WHITE FACE="楷体_GB2312"><B>请您输入</B></FONT></TD></TR>
 <TR><TD><FONT SIZE=3 COLOR=WHITE><B>Password:</B></FONT></TD>
 <TD><INPUT TYPE="password" NAME="passwrd" VALUE="" SIZE=10></TD></TR>
-<TR><TD COLSPAN=2 ALIGN=CENTER><INPUT TYPE="button" NAME="btn" VALUE=" 登录 " onClick="ckPwd();return false;"></TD></TR>
+<TR><TD COLSPAN=2 ALIGN=CENTER><INPUT TYPE="button" id="123" NAME="btn" VALUE=" 登录 " onClick="ckPwd();return false;"></TD></TR>
 </TABLE></FORM>
-
+onkeypress='if(event.keyCode==13) document.getElementById(/"123/").click()'
    
   
   
