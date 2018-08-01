@@ -29,16 +29,27 @@ function tstOk(){
   alert("正确，开始登录!");
   location.href="https://vimalakirtilee.github.io/Main.html";
  }
-
-
 // End Hiding -->
 </SCRIPT> 
-    
+
+  
+<script language="javascript"> 
+    function onkeydown() { 
+        if(event.keyCode == 13) { 
+            document.getElementById("123").click(); 
+            return false; 
+        } 
+    } 
+</script>   
+  
+  
+  
    
 </head>
     
   
-<body><div class="wrap">
+<body onLoad="document.getElementById('123').focus()"> 
+<div class="wrap">
 
 
 <FORM NAME="isn">
@@ -48,7 +59,7 @@ function tstOk(){
 <TD><INPUT TYPE="password" NAME="passwrd" VALUE="" SIZE=10></TD></TR>
 <TR><TD COLSPAN=2 ALIGN=CENTER><INPUT TYPE="button" id="123" NAME="btn" VALUE=" 登录 " onClick="ckPwd();return false;"></TD></TR>
 </TABLE></FORM>
-onkeypress='if(event.keyCode==13) document.getElementById(/"123/").click()'
+
    
   
   
