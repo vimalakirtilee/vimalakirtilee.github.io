@@ -38,7 +38,7 @@
 <p class="t2">gmx grompp -f <a href="https://vimalakirtilee.github.io/GMX Code/em_vac.mdp.txt"> em_vac.mdp</a> -c p1_pbc.gro -p p1.top -o em_vac.tpr</p>	
 <p class="t2">gmx mdrun -v -deffnm em_vac</p>
 <p class="t1">[1.4].Add solution and ions and Energy minimum in solution </p>
-<p class="t2">gmx solvate -cp em_vac.gro -cs spc216.gro -p p1.top -o p1_sol.gro</p>
+<p class="t2">gmx solvate -cp em_vac.gro -cs spc216.gro -p p1.top -o p1_wat.gro</p>
 <p>#spc216是Gromacs统一的三点水分子结构，可用于SPC,SPC/E,TIP3P水模型;</p>
 <p>#-p is modificating the top and add the physical parameter of water;</p>
 <p class="t2">gmx grompp -f <a href="https://vimalakirtilee.github.io/GMX Code/em_sol.mdp.txt"> em_sol.mdp</a> -c p1_wat.gro -p p1.top -o p1_sol.tpr</p>
