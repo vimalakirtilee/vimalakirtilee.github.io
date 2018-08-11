@@ -58,7 +58,7 @@
 <p class="t0">#后台运算时可用<strong>tail -n 25 npt_pre.log</strong>查看</p>
 <p class="t1">[1.7].NPT without position restraint(Production)</p>
 <p class="t2">gmx grompp   -f <a href="https://vimalakirtilee.github.io/GMX Code/npt.mdp.txt"> npt.mdp</a> -c npt_pre.gro -p p1.top -o npt.tpr</p>
-<p class="t2">gmx mdrun -v -deffnm npt.tpr</p>
+<p class="t2">gmx mdrun -v -deffnm npt</p>
 <p class="t1">[1.8].Trajectory transition</p>
 <p class="t2">gmx trjconv -s npt.tpr -f npr.trr -o npt.xtc -pbc whole -ur compact -center</p>
 <p>#Choose <strong>0(System)</strong> twice</p>
