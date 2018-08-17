@@ -91,10 +91,12 @@
 <p class="t2">gmx hbond -s npt.tpr -f npt.xtc -num npt_hnum.xvg</p>
 <p>#Select <strong>(Prorein) and (Water)</strong></p>
 <p class="t1">[2.8].Salt bridge</p>
-<p class="t2">gmx saltbr -s npt.tpr -f npt.xtc</p>
-<p class="t1">[2.9].Cluster</p>
-<p class="t1">[2.10].PCA(Principal Component Analysis)</p>
-<p class="t1">[2.11].gmx angle </p>
+<p class="t2">VMD--Extentions--Anylasis--Salt bridges</p>
+<p class="t1">[2.9].溶质周围的溶剂取向</p>
+<p class="t2">gmx sorient -s npt.tpr - f npt.xtc -o npt_sori.xvg -rc npt_scount_r.xvg</p>	
+<p class="t1">[2.10].Cluster</p>
+<p class="t1">[2.11].PCA(Principal Component Analysis)</p>
+<p class="t1">[2.12].gmx angle </p>
 <p>&nbsp;</p>
 <p class="t1">[3].Note</p>
 <p class="t0">1.energygrps里控制不同能量组可输出相互作用能；</p>
