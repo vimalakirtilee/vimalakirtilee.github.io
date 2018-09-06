@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>重装win7系统后打开截图工具显示“截图工具当前未在计算机上运行</title>
+</head>
+<body>
+<div id="wmd-preview" class="wmd-preview"><div class="md-section-divider"></div><div class="md-section-divider"></div><h2 data-anchor-id="uun0" id="重装win7系统后打开截图工具显示截图工具当前未在计算机上运行">重装win7系统后打开截图工具显示“截图工具当前未在计算机上运行</h2><p data-anchor-id="kili"><strong>具体方法如下:</strong> <br>
+在C盘中分别搜索tpcps.dll和InkObj.dll文件然后注册即可。</p><p data-anchor-id="7i7o"><strong>备注：怎么在右键菜单添加注册DLL选项</strong></p><p data-anchor-id="r7ce">1.在桌面单击右键选择新建一个文本文档，双击打开此文本文档，输入：</p><pre data-anchor-id="d7nz"><code>Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\dllfile\shell]
+
+[HKEY_CLASSES_ROOT\dllfile\shell\register]
+
+@="注册DLL文件"
+
+[HKEY_CLASSES_ROOT\dllfile\shell\register\command]
+
+@="regsvr32 %1"
+
+[HKEY_CLASSES_ROOT\dllfile\shell\Unregister]
+
+@="卸载DLL文件"
+
+[HKEY_CLASSES_ROOT\dllfile\shell\Unregister\command]
+
+@="regsvr32 /u %1"
+</code></pre><p data-anchor-id="v6kp">（每一行命令需空一行） <br>
+点击右上角 关闭按钮 提示保存，并确认。 <br>
+2.右键单击此文件，选择重命名，将TXT换成reg格式。会有警告 选择是。 <br>
+3.双击新建文本文档.reg 会弹出提示，选择是。 <br>
+4.运行后，随便找一夜DLL文件 用右键单击，菜单中就出现了注册选项。</p></div>
+</body>
+</html>
