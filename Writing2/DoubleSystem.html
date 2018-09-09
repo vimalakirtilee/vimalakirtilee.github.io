@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>电脑安装双Windows系统详解</title>
+</head>
+<body>
+<div id="wmd-preview" class="wmd-preview"><div class="md-section-divider"></div><div class="md-section-divider"></div><h2 data-anchor-id="4pec" id="电脑安装双系统详解">电脑安装双系统详解</h2><ol data-anchor-id="ikc8">
+<li>第一个系统装好后，进入<strong>Win PE</strong>打开<strong>DG(DiskGenius)分区工具</strong>，用以调整分区状态。</li>
+<li>C盘是已经装好的第一个系统的主分区（显示“本地磁盘(C:)NTFS（活动）”），D盘是准备装第二个系统的主分区，必须是主分区。</li>
+<li><strong>选中C盘后右键，点取消分区激活状态</strong>，弹出界面“取消分区‘本地磁盘(C:)’的激活状态会导致该分区上的操作系统无法启动<strong>。确认要取消激活状态吗？”，选择“是”</strong>。</li>
+<li><strong>选中D盘，右键激活当前分区。</strong></li>
+<li>点击保存更改。</li>
+<li><strong>菜单栏“硬盘--重建主引导记录(MBR)”。</strong></li>
+<li>安装第二个系统到D盘。</li>
+<li>第二个系统安装完成后，进入Win PE，在“开始菜单”里面找到“Windows引导修复”，用管理员模式运行，然后“自动修复”即可，也可使用“引导修复软件NTBOOTAutoFix”。（修复进入系统前选择哪个系统的界面）</li>
+</ol></div>
+</body>
+</html>
