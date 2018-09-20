@@ -1,0 +1,26 @@
+CMD命令（复制、移动、重命名）（文件夹、子文件夹）下所有符合条件的文件
+
+一、
+::1、文件夹A里有很多子文件夹，这些文件夹里有很多不同格式的文件，我想把这些所有子文件夹里的文件全部提取出来，放到A文件夹里面，
+::那些子文件夹里就没有东西了
+for /f "delims=" %%a in ('dir /b/s/a-d') do move /-y "%%a" "%~dp0%%~nxa"
+
+::2、重命名文件夹下所有后缀为*.java2的文件名为*.java
+for /f "delims=" %%a in ('dir /b/s/a-d *.java2') do rename "%%a" *.java
+
+::3、复制文件夹下所有后缀为*.txt的文件到目录F:\file中
+for /f "delims=" %%a in ('dir /b/s/a-d *.txt) do copy "%%a" F:\file
+
+使用方法：
+复制单条命令到txt文本文件，重命名为*.bat，放到文件所在文件夹下，双击运行即可。
+
+
+二、
+set Directory=F:\tmp\xiaomiexingxing\PopStar1
+
+判断是否存在： if not exist %Directory%
+删除目录： rd /s /q D:\NETDATA
+删除文件： del "%Directory%\%file1%"
+创建目录： md %Directory2%\picTmp
+复制文件： copy F:\1.txt D:\
+复制目录： xcopy %Directory% %Directory2%\picTmp /e
