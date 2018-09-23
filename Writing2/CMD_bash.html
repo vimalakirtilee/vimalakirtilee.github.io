@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CMD命令（复制、移动、重命名）（文件夹、子文件夹）下所有符合条件的文件</title>
+</head>
+<body>
+<div id="wmd-preview" class="wmd-preview"><div class="md-section-divider"></div><div class="md-section-divider"></div><h2 data-anchor-id="4611" id="cmd命令复制移动重命名文件夹子文件夹下所有符合条件的文件">CMD命令（复制、移动、重命名）（文件夹、子文件夹）下所有符合条件的文件</h2><p data-anchor-id="h01h"><strong>一、</strong> <br>
+::1、文件夹A里有很多子文件夹，这些文件夹里有很多不同格式的文件，我想把这些所有子文件夹里的文件全部提取出来，放到A文件夹里面，那些子文件夹里就没有东西了</p><pre data-anchor-id="ihh0"><code>for /f "delims=" %%a in ('dir /b/s/a-d') do move /-y "%%a" "%~dp0%%~nxa"
+</code></pre><p data-anchor-id="kfmd">::%0代表批处理本身 xxx.bat <br>
+::~dp是变量扩充  <br>
+::d既是扩充到分区号  <br>
+::p就是扩充到路径 <br>
+::dp就是扩充到分区号路径 <br>
+:: %~dpI - 仅将 %I 扩充到一个驱动器号和路径 <br>
+::%%~nxa：文件名及后缀信息</p><p data-anchor-id="tskx">::2、重命名文件夹下所有后缀为<em>.java2的文件名为</em>.java <br>
+for /f "delims=" %%a in ('dir /b/s/a-d *.java2') do rename "%%a" *.java</p><p data-anchor-id="y1wa">::3、复制文件夹下所有后缀为*.txt的文件到目录F:\file中 <br>
+for /f "delims=" %%a in ('dir /b/s/a-d *.txt) do copy "%%a" F:\file</p><p data-anchor-id="3lx4">使用方法： <br>
+复制单条命令到txt文本文件，重命名为*.bat，放到文件所在文件夹下，双击运行即可。</p><p data-anchor-id="s7jm"><strong>二、</strong> <br>
+set Directory=F:\tmp\xiaomiexingxing\PopStar1</p><p data-anchor-id="89s8">判断是否存在： if not exist %Directory% <br>
+删除目录： rd /s /q D:\NETDATA <br>
+删除文件： del "%Directory%\%file1%" <br>
+创建目录： md %Directory2%\picTmp <br>
+复制文件： copy F:\1.txt D:\ <br>
+复制目录： xcopy %Directory% %Directory2%\picTmp /e</p><p data-anchor-id="i76h">三、 <br>
+<a href="https://www.cnblogs.com/s1ihome/archive/2009/01/15/batTutorial.html" target="_blank">批处理最完整人性化教程(.bat文件语法)</a></p></div>
+</body>
+</html>
