@@ -13,37 +13,41 @@
 &lt;/head&gt;
 
 &lt;body&gt;
-&lt;!--本例设置了两个产生名人名言的方式，第一种方式为自动产生名人名言；第二种为点击按钮后产生新的名人名言--&gt;
-&lt;!--以下为第一种方式 START--&gt;
+&lt;!--本方法主要包括三步：1.于显示处添加id；2.添加javascript文件；3.创建名人名言库quotes.js--&gt;
+&lt;!--本例提供了两种显示名人名言的方式，第一种方式为自动产生名人名言；第二种为点击按钮后产生新的名人名言--&gt;
+
+&lt;!--1.1 以下为第一种方式 START--&gt;
 &lt;h1&gt;My Quotes&lt;/h1&gt; &lt;!--此处为一级标题--&gt;
 &lt;div id="MyQuotes"&gt;&lt;/div&gt; &lt;!--&lt;div&gt;是一种分段方式--&gt;
-&lt;!--以下为第一种方式 END--&gt;
+&lt;!--以上为第一种方式 END--&gt;
 
-&lt;!--以下为第二种方式 START--&gt;
+&lt;!--1.2 以下为第二种方式 START--&gt;
 &lt;h1&gt;Simple Quote Generator&lt;/h1&gt; 
 &lt;div id="quoteDisplay"&gt;
 &lt;!--QUotes will display here--&gt;
 &lt;/div&gt;
 &lt;button onclick="newQuote()"&gt;New Quote&lt;/button&gt; &lt;!--此处设置了一个按钮，通过按钮来调用"newQuote"函数，产生新的名言--&gt;
-&lt;!--以下为第二种方式 END--&gt;
+&lt;!--以上为第二种方式 END--&gt;
 
-&lt;!--以下为js的部分 START--&gt;
-&lt;script scr="javascript.js"&gt;
+&lt;!--2. 以下为js的部分 START--&gt;
+&lt;<script Language="JavaScript" src="vimalakirtilee.github.io/quotes.js">&gt;
+&lt;</script>&gt;
 
-<!--下面的我没用 START-->
+&lt;!--下面这部分与1.2相关我没用 START--&gt;
+&lt;script&gt;
 function newQuote() {
 var randomNumber2 = Math.floor(Math.random()*(quotes.length));
 document.getElementById('quoteDisplay').innerHTML = quotes[randomNumber2];
 }
-<!--下面的我没用 END-->
-
 &lt;/script&gt;
-&lt;!--以下为js的部分 END--&gt;
+&lt;!--上面这部分我没用 END--&gt;
+
+&lt;!--以上为js的部分 END--&gt;
 
 &lt;/body&gt;
 &lt;/html&gt;
 
-&lt;!--新建一个js文件（newQuotes.js），放入下面内容，目的是创建一个变量"quotes"记录名言 START--&gt;
+&lt;!--3. 新建一个js文件（quotes.js），放入下面内容，目的是创建一个变量"quotes"记录名言 START--&gt;
 var quotes = [
 '天才就其本质而论只不过是对事业、对工作过程的热爱而已。——高尔基',
 '勤能补拙是良训，一分辛劳一分才。——华罗庚',
@@ -53,10 +57,13 @@ var quotes = [
 
 var randomNumber1 = Math.floor(Math.random()*(quotes.length));//用Math.random产生0-1的随机数，乘以quotes的个数以获取quotes的随机序号；用Math.floor来取整后返回给变量randomNumber1
 document.getElementById('MyQuotes').innerHTML = quotes[randomNumber1];//用getElementById通过id找到赋值目标，用innerHTML来将quotes中的序号为"randomNumber1"的量进行赋值
-&lt;!--新建一个js文件（newQuotes.js），放入下面内容，目的是创建一个变量"quotes"记录名言 END--&gt;
+&lt;!--新建一个js文件（newQuotes.js），放入上面内容，目的是创建一个变量"quotes"记录名言 END--&gt;
 
 </code></pre><p data-anchor-id="ywzu">
+ 
 参考内容：<a href="http://java.tedu.cn/data/javascript/200689.html" target="_blank">如何使用JavaScript和HTML创建随机名言生成器</a></p>
+ 
+ 
  
 <p data-anchor-id="bhzs"><strong>方法二（直接在Javascript里面）：</strong></p><pre data-anchor-id="820a"><code>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
