@@ -2,6 +2,9 @@
 ;=========================================================================
 #!m::Run www.molakirlee.tk
 ;=========================================================================
+;窗口置顶
+#SPACE::  Winset, Alwaysontop, , A
+;=========================================================================
 #!t::
 	DetectHiddenWindows, on
 	IfWinNotExist ahk_class TTOTAL_CMD
@@ -11,6 +14,20 @@
 		WinActivate
 	Else
 		WinMinimize
+Return
+;=========================================================================
+;运行、隐藏、激活FileGee.exe。可能是因为个人版不支持后台运行，所以WinActivate不能激活，故此处用Run重新打开的方式来激活。
+#!g::
+	DetectHiddenWindows, on ;可识别隐藏窗口
+	Path_Browser_FileGee := "C:\Program Files (x86)\Filegee10.1Green.v\FileGeePersonal\FileGee.exe" ;设置路径
+	IfWinNotExist ahk_exe FileGee.exe ;检查文件是否打开
+		Run %Path_Browser_FileGee% ;运行程序
+	Else
+		IfWinNotActive ahk_exe FileGee.exe ;检查文件窗口是否激活
+		;WinActivate ;激活窗口
+		Run %Path_Browser_FileGee% ;运行程序
+		Else
+		WinClose ;关闭窗口
 Return
 ;=========================================================================
 ;一鍵打開、激活、或隱藏Chrome，請先設置Path_Browser
@@ -165,8 +182,7 @@ hyf_winGet(cmd := "title", WinTitle := "A") ;不支持Pos等多變量輸出命�
     Return v
 }
 ;=========================================================================
-;窗口置顶
-#SPACE::  Winset, Alwaysontop, , A
+;Others
 ;=========================================================================
 
 
