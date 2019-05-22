@@ -81,6 +81,7 @@
 <p>#Select <strong>1(Protein) </strong></p>
 <p class="t2">gmx sasa -s npt.tpr -f npt.xtc -o npt_area.xvg -or npt_resarea.xvg -oa npt_atomarea.xvg -surface 'group Protein' -output '"Hydrophobic" group Protein and charge {-0.2 to 0.2}; "Hydrophilic" group Protein and not charge {-0.2 to 0.2}'</p>
 <p>#计算Protein的溶剂可及表面积，并按照原子电荷在-0.2~0.2区间作为疏水区其他作为亲水区将结果分成Hydrophobic(第3、4列)和Hydrophilic（第5、6列）</p>
+<p>#-surface定义被计算的组，-output后面定义单独输出哪些部分</p>
 <p class="t1">[2.4].RMSF and B factor</p>
 <p class="t2">gmx rmsf -s npt.tpr -f npt.xtc -b 500 -o npt_rmsf.xvg -ox npt_avg.pdb</p>
 <p>#Select <strong>1(Protein) </strong>;</p>
